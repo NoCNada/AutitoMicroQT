@@ -273,8 +273,8 @@ void qform1::on_pushButton_2_clicked()
 
 void qform1::on_pushButton_3_clicked()
 {
-    //PWM1.i32 = 32000;
-    //PWM2.i32 = 32000;
+    PWM1.i32 = 3000;
+    PWM2.i32 = 3000;
 
     //EnviarComando(0x09,0xD0,payload);
     EnviarComando(0x02,0xF1,payload);
