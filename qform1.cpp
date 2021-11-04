@@ -131,8 +131,10 @@ void qform1::EnviarComando(uint8_t length, uint8_t cmd, uint8_t payload[]){
             TX[14] = PWM2.u8[2];
             TX[15] = PWM2.u8[3];
         break;
-        case 0xF1: //Indica en que pared rebotó la pelota
+        case 0xD2: //TIEMPO MOTOR PRENDIDO
             TX[7] = cmd;//CMD
+            TX[8] = ui->lineEdit_4->text().toInt();
+            ui->label->setNum(ui->lineEdit_4->text().toInt()*100);
         break;
         case 0xF0: //Alive
             TX[7] = cmd;
@@ -152,7 +154,7 @@ void qform1::EnviarComando(uint8_t length, uint8_t cmd, uint8_t payload[]){
     }
 
     if(QUdpSocket1->isOpen()){
-        QUdpSocket1->writeDatagram((char*)TX,9,hostAdress,hostPort);
+        QUdpSocket1->writeDatagram((char*)TX,7 + TX[4],hostAdress,hostPort);
     }
 
 }
@@ -170,16 +172,27 @@ void qform1::RecibirComando(uint8_t ind){
             ui->label->setNum(asdasd);
         break;
         case 0xD0:
-            ui->lineEdit_3->setText("MOTORES PWM RECIBIDOS");
-        break;
-        case 0xD2:
-            ui->lineEdit_3->setText("Motores 0xD0");
-        break;
-        case 0xF1:
             asdasd++;
-            ui->lineEdit_3->setText("0XF1");
+            if(RX[ind++] == 0x0D){
+                if(RX[ind++] == 0xDC){
+                     ui->lineEdit_3->setText("MOTORES OK");
+                }
+            }
             ui->label->setNum(asdasd);
         break;
+        case 0xD2:
+        asdasd++;
+        ui->lineEdit_3->setText("tiempo configurado");
+        ui->label->setNum(asdasd);
+        break;
+//        case 0xD2:
+//            ui->lineEdit_3->setText("Motores 0xD0");
+//        break;
+//        case 0xF1:
+//            asdasd++;
+//            ui->lineEdit_3->setText("0XF1");
+//            ui->label->setNum(asdasd);
+//        break;
     }
 }
 
@@ -273,10 +286,16 @@ void qform1::on_pushButton_2_clicked()
 
 void qform1::on_pushButton_3_clicked()
 {
-    PWM1.i32 = 3000;
-    PWM2.i32 = 3000;
+    PWM1.u32 = 3999;
+    PWM2.u32 = 3999;
 
     //EnviarComando(0x09,0xD0,payload);
-    EnviarComando(0x02,0xF1,payload);
+    EnviarComando(10,0xD0,payload);
+}
+
+
+void qform1::on_pushButton_4_clicked()
+{
+    EnviarComando(0x03,0xD2,payload);
 }
 
