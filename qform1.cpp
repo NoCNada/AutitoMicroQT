@@ -286,9 +286,9 @@ void qform1::on_pushButton_2_clicked()
 
 void qform1::on_pushButton_3_clicked()
 {
-    PWM1.u32 = 3999;
-    PWM2.u32 = 3999;
-
+    PWM1.u32 = ui->lineEdit_6->text().toUInt();
+    PWM2.u32 = ui->lineEdit_5->text().toUInt();
+//TX[8] = ui->lineEdit_4->text().toInt();
     //EnviarComando(0x09,0xD0,payload);
     EnviarComando(10,0xD0,payload);
 }
