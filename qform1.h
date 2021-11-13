@@ -63,7 +63,7 @@ private:
 
     uint8_t TX[256], payload[8],RX[256],indiceRX=0;
     QString mensaje="--> 0x";
-    _sWork PWM1, PWM2;
+    _sWork PWM1, PWM2, bufADC[9];
 
 
 };

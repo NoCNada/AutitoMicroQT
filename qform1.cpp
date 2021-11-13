@@ -163,6 +163,7 @@ void qform1::EnviarComando(uint8_t length, uint8_t cmd, uint8_t payload[]){
 
 void qform1::RecibirComando(uint8_t ind){
     static uint8_t asdasd = 0;
+    QString ss;
     switch(RX[ind++]){
         case 0xF0:
             //ui->pushButton->setText("andaaa");
@@ -184,6 +185,29 @@ void qform1::RecibirComando(uint8_t ind){
         asdasd++;
         ui->lineEdit_3->setText("tiempo configurado");
         ui->label->setNum(asdasd);
+        break;
+        case 0xA1:
+
+        for (uint8_t i = 0; i<9 ;i++) {
+            for (uint8_t j = 0; j<4 ; j++) {
+                bufADC[i].i8[j] = RX[ind++];
+            }
+        }
+        //asdasd++;
+        ui->lineEdit_3->setText("Recibido sensores");
+        //ui->label->setNum(asdasd);
+        ui->label_4->setNum(bufADC[0].i32);
+        ui->label_5->setNum(bufADC[1].i32);
+        ui->label_6->setNum(bufADC[2].i32);
+        ui->label_7->setNum(bufADC[3].i32);
+        ui->label_8->setNum(bufADC[4].i32);
+        ui->label_9->setNum(bufADC[5].i32);
+        ui->label_10->setNum(bufADC[6].i32);
+        ui->label_11->setNum(bufADC[7].i32);
+        ss = QString::number(bufADC[8].f,'f',3);
+        ui->lineEdit_7->setText(ss);
+      //  ui->label_12->setn
+ //       ui->label_4->setNum();
         break;
 //        case 0xD2:
 //            ui->lineEdit_3->setText("Motores 0xD0");
