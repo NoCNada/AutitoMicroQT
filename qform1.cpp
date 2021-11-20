@@ -139,6 +139,12 @@ void qform1::EnviarComando(uint8_t length, uint8_t cmd, uint8_t payload[]){
         case 0xF0: //Alive
             TX[7] = cmd;
         break;
+        case 0xA5: //Alive
+            TX[7] = cmd;
+            break;
+        case 0xB0: //Alive
+            TX[7] = cmd;
+            break;
     }
 
 
@@ -321,5 +327,17 @@ void qform1::on_pushButton_3_clicked()
 void qform1::on_pushButton_4_clicked()
 {
     EnviarComando(0x03,0xD2,payload);
+}
+
+
+void qform1::on_pushButton_5_clicked()
+{
+     EnviarComando(0x02,0xA5,payload);
+}
+
+
+void qform1::on_pushButton_6_clicked()
+{
+    EnviarComando(0x02,0xB0,payload);
 }
 
