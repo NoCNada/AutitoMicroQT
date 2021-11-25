@@ -120,7 +120,7 @@ void qform1::EnviarComando(uint8_t length, uint8_t cmd, uint8_t payload[]){
     TX[5] = 0x00;
     TX[6] = ':';
     switch (cmd) {
-        case 0xD0: //MOTOR ENCENDER
+        case 0xD0: //PWM BASE
             TX[7] = cmd;
             TX[8] = PWM1.u8[0];
             TX[9] = PWM1.u8[1];
@@ -139,12 +139,33 @@ void qform1::EnviarComando(uint8_t length, uint8_t cmd, uint8_t payload[]){
         case 0xF0: //Alive
             TX[7] = cmd;
         break;
-        case 0xA5: //Alive
+        case 0xA5:
             TX[7] = cmd;
             break;
-        case 0xB0: //Alive
+        case 0xB0:
             TX[7] = cmd;
             break;
+        case 0xB3:
+            TX[7] = cmd;
+            break;
+        case 0xD5:
+            TX[7] = cmd;
+            break;
+        case 0xC7: //PID PARAMETROS
+            TX[7] = cmd;
+            TX[8] = kp.u8[0];
+            TX[9] = kp.u8[1];
+            TX[10] = kp.u8[2];
+            TX[11] = kp.u8[3];
+            TX[12] = kd.u8[0];
+            TX[13] = kd.u8[1];
+            TX[14] = kd.u8[2];
+            TX[15] = kd.u8[3];
+            TX[16] = ki.u8[0];
+            TX[17] = ki.u8[1];
+            TX[18] = ki.u8[2];
+            TX[19] = ki.u8[3];
+        break;
     }
 
 
@@ -339,5 +360,37 @@ void qform1::on_pushButton_5_clicked()
 void qform1::on_pushButton_6_clicked()
 {
     EnviarComando(0x02,0xB0,payload);
+}
+
+
+void qform1::on_pushButton_7_clicked()
+{
+    static uint8_t estadoo = 0;
+    EnviarComando(2,0xD5,payload);
+    // ui->pushButton->setText("OPEN");
+    if(!estadoo){
+        ui->pushButton_7->setText("STOP");
+        estadoo = !estadoo;
+    }
+    else{
+        ui->pushButton_7->setText("Start");
+        estadoo = !estadoo;
+    }
+
+}
+
+
+void qform1::on_pushButton_8_clicked()
+{
+    kp.i32 = ui->lineEdit_8->text().toInt();
+    kd.i32 = ui->lineEdit_9->text().toInt();
+    ki.i32 = ui->lineEdit_10->text().toInt();
+    EnviarComando(14,0xC7,payload);
+}
+
+
+void qform1::on_pushButton_9_clicked()
+{
+    EnviarComando(2,0xB3,payload);
 }
 

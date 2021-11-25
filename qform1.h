@@ -56,6 +56,12 @@ private slots:
 
     void on_pushButton_6_clicked();
 
+    void on_pushButton_7_clicked();
+
+    void on_pushButton_8_clicked();
+
+    void on_pushButton_9_clicked();
+
 private:
     Ui::qform1 *ui;
 
@@ -67,7 +73,7 @@ private:
 
     uint8_t TX[256], payload[8],RX[256],indiceRX=0;
     QString mensaje="--> 0x";
-    _sWork PWM1, PWM2, bufADC[9];
+    _sWork PWM1, PWM2, bufADC[9], kp,kd,ki;
 
 
 };
